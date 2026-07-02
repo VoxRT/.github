@@ -18,7 +18,7 @@ The runtime is CPU-only by design. Real deployments don't have a free GPU sittin
 | Universal ARMv8 kernels | partial | yes — one binary, A53 to flagship |
 | Hot-path allocations | many | none (pre-allocated scratch) |
 | Encrypted weights at rest | rare | AES-256-GCM by default |
-| Power profile | "best effort" | measured against a watt meter |
+| Scalar vs NEON speedup | undocumented per-kernel | **8.7× on Cortex-A73** — 0.182 → 0.021 RTF, [full methodology](https://github.com/VoxRT/voxrt-wake-word-linux#neon-vs-scalar) |
 
 Concretely: zero allocations in the streaming inference loop, scalar/NEON kernels that match each other bit-exactly so we can ship one binary across the whole CPU tier, and a `.vxrt` model format that stays mmap-loadable end-to-end (the bytes never round-trip through a managed heap).
 
